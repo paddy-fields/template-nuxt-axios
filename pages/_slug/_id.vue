@@ -8,14 +8,9 @@
 
 <script>
 export default {
-  data() {
-    return {
-      article: '',
-    }
-  },
-  async mounted() {
-    const response = await this.$axios.$get(`articles/${this.$route.query.id}`)
-    this.article = response
+  async asyncData({ params, $axios }) {
+    const article = await $axios.$get(`articles/${params.id}`)
+    return { article }
   },
 }
 </script>

@@ -3,7 +3,7 @@
     <h1>Nuxt, Strapi, Postres, REST</h1>
     <div v-for="article in articles" :key="article.id">
       <div class="article">
-        <NuxtLink :to="{ path: article.slug, query: { id: article.id } }">{{
+        <NuxtLink :to="{ path: article.slug + '/' + article.id }">{{
           article.title
         }}</NuxtLink>
         <p>{{ article.subheading }}</p>
@@ -14,14 +14,9 @@
 
 <script>
 export default {
-  data() {
-    return {
-      articles: [],
-    }
-  },
-  async mounted() {
-    const response = await this.$axios.$get('articles')
-    this.articles = response
+  async asyncData({ $axios }) {
+    const articles = await $axios.$get('articles')
+    return { articles }
   },
 }
 </script>
